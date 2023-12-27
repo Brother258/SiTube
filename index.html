@@ -6,13 +6,6 @@
   <link rel="manifest" href="/manifest.json">
   <link rel="icon" type="image/png" href="icon.png"/>
   <title>SiTube - Best Online Video Player by Shahriar</title>
-<!-- Include the virtual keyboard CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/virtual-keyboard-js@1.7.9/dist/css/keyboard-basic.min.css">
-<!-- Include jQuery (required by virtual-keyboard-js) -->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<!-- Include the virtual keyboard JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/virtual-keyboard-js@1.7.9/dist/js/jquery.keyboard.min.js"></script>
-
   <link rel="stylesheet" href="install.css">
   <link rel="stylesheet" href="player.css">
   <link rel="stylesheet" href="clock.css">
@@ -73,6 +66,15 @@
             <iframe src="key.html" frameborder="0"></iframe>
         </div>
     </div>
+
+
+    <div id="mobileMessage">
+	    <center>
+		    <img src="https://i.pinimg.com/originals/3b/97/63/3b97635b6bd4a5bfc436fbd3908f05e0.gif" style="height:100%; width:auto;>
+	      <p> This online video player is designed with many key and mouse shortcut for the device which is connected with keyboard and mouse! Sorry for you. But I've a solution. You can use <a href="https://sikey.netlify.app/streama/"> Streama </a>.</p> 
+    	    </center>
+    </div>
+
 </body>
 </html>
 
@@ -128,20 +130,13 @@
         });
     }
 </script>
-<script>
-  // Function to check if the device is a mobile device
-  function isMobileDevice() {
-    return window.innerWidth <= 767; // Adjust the threshold as needed
-  }
-
-  // Initialize the virtual keyboard and trigger a click event on the hidden input field on mobile devices
-  if (isMobileDevice()) {
-    $(document).ready(function () {
-      // Initialize the virtual keyboard
-      $('#hiddenInputField').keyboard();
-
-      // Trigger a click event on the hidden input field to show the keyboard
-      $('#hiddenInputField').trigger('click');
-    });
-  }
-</script>
+    <script>
+        // JavaScript to show the message on mobile devices
+        window.onload = function() {
+            // Check if the user is on a mobile device
+            if (/Mobi/i.test(navigator.userAgent)) {
+                // Display the mobile message
+                document.getElementById("mobileMessage").style.display = "block";
+            }
+        };
+    </script>
