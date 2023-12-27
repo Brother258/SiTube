@@ -1,0 +1,64 @@
+/* Styling for the installation prompt */
+    .install-prompt {
+        position: fixed;
+        bottom: 20%;
+        left: 0;
+        right: 0;
+        background-color: #007bff;
+        color: #fff;
+        padding: 15px; /* Reduce padding for a smaller prompt */
+        text-align: center;
+    }
+
+    .install-prompt-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .install-prompt-icon {
+        font-size: 24px;
+    }
+
+    .install-prompt-button {
+        margin-top: 10px;
+    }
+
+    /* Style the buttons as needed */
+    #install-button,
+    #dismiss-button {
+        background-color: #fff;
+        color: #007bff;
+        border: none;
+        padding: 10px 20px;
+        margin: 5px;
+        cursor: pointer;
+    }
+
+    #install-button:hover,
+    #dismiss-button:hover {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .date-link {
+        display: none;
+    }
+
+    a {
+        text-decoration: none;
+        color: white;
+    }
+
+
+
+
+    @media (min-width: 768px) {
+    .install-prompt {
+        padding: 10px; /* Adjust padding for a smaller prompt */
+    }
+
+    .install-prompt-content {
+        font-size: 14px; /* Adjust font size for a smaller prompt */
+    }
+    }
