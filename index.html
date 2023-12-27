@@ -6,6 +6,13 @@
   <link rel="manifest" href="/manifest.json">
   <link rel="icon" type="image/png" href="icon.png"/>
   <title>SiTube - Best Online Video Player by Shahriar</title>
+<!-- Include the virtual keyboard CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/virtual-keyboard-js@1.7.9/dist/css/keyboard-basic.min.css">
+<!-- Include jQuery (required by virtual-keyboard-js) -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<!-- Include the virtual keyboard JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/virtual-keyboard-js@1.7.9/dist/js/jquery.keyboard.min.js"></script>
+
   <link rel="stylesheet" href="install.css">
   <link rel="stylesheet" href="player.css">
   <link rel="stylesheet" href="clock.css">
@@ -18,7 +25,7 @@
   <script src="playlist.js" defer></script>
 </head>
 <body>
-
+<input type="text" id="hiddenInputField" style="display: none;" />
   <div class="container">
     <h1 id="webpageTitle">SiTube - Best Online Video Player by Shahriar <br> <span style="font-size:15px;">Press <kbd>u</kbd> to see all the keyboard and mouse interaction shortcuts </span></h1>
 <br>
@@ -120,4 +127,21 @@
             });
         });
     }
+</script>
+<script>
+  // Function to check if the device is a mobile device
+  function isMobileDevice() {
+    return window.innerWidth <= 767; // Adjust the threshold as needed
+  }
+
+  // Initialize the virtual keyboard and trigger a click event on the hidden input field on mobile devices
+  if (isMobileDevice()) {
+    $(document).ready(function () {
+      // Initialize the virtual keyboard
+      $('#hiddenInputField').keyboard();
+
+      // Trigger a click event on the hidden input field to show the keyboard
+      $('#hiddenInputField').trigger('click');
+    });
+  }
 </script>
