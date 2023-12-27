@@ -1,7 +1,7 @@
 /* Styling for the installation prompt */
     .install-prompt {
         position: fixed;
-        bottom: 20%;
+        bottom: 0;
         left: 0;
         right: 0;
         background-color: #007bff;
@@ -40,16 +40,6 @@
         background-color: #007bff;
         color: #fff;
     }
-
-    .date-link {
-        display: none;
-    }
-
-    a {
-        text-decoration: none;
-        color: white;
-    }
-
 
 
 
