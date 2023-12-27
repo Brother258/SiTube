@@ -16,6 +16,20 @@
   <script src="popup.js" defer></script>
   <script src="wheel.js" defer></script>
   <script src="playlist.js" defer></script>
+  <style>
+       #mobileMessage {
+            display: none;
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+  </style>
 </head>
 <body>
 
@@ -130,8 +144,8 @@
     <script>
         // JavaScript to show the message on mobile devices
         window.onload = function() {
-            // Check if the user is on a mobile device
-            if (/Mobi/i.test(navigator.userAgent)) {
+            // Check if the window width is less than a certain threshold (e.g., 600 pixels)
+            if (window.innerWidth <= 600) {
                 // Display the mobile message
                 document.getElementById("mobileMessage").style.display = "block";
             }
