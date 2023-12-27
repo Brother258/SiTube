@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="icon" type="image/svg+xml" href="https://sikey.netlify.app/video-player-icon.svg"/>
+  <title>SiTube - Video Player by Shahriar</title>
+  <link rel="stylesheet" href="player.css">
+  <link rel="stylesheet" href="clock.css">
+  <link rel="stylesheet" href="popup.css">
+  <link rel="stylesheet" href="playlist.css">
+  <script src="player.js" defer></script>
+  <script src="clock.js" defer></script>
+  <script src="popup.js" defer></script>
+  <script src="wheel.js" defer></script>
+  <script src="playlist.js" defer></script>
+</head>
+<body>
+
+  <div class="container">
+    <h1 id="webpageTitle">SiTube - Video Player by Shahriar <br> <span style="font-size:15px;">Press <kbd>u</kbd> to see all the keyboard and mouse interaction shortcuts </span></h1>
+<br>
+    <div class="video-container" id="videoContainer">
+         <div class="clock" id="clock">
+              <div class="time" id="time"></div>
+         </div>
+
+      <video id="videoPlayer" controls playsinline>
+        Your browser does not support the video tag.
+      </video>
+      
+	<!-- Add a container for playlist thumbnails and names -->
+	<div class="playlist-container hidden" id="playlistContainer">
+         <p class="d"> Press <strong>d</strong> to toogle playlist sidebar </p>
+         
+	  <div class="playlist-items" id="playlistItems"></div>
+
+
+	</div>
+
+    </div>
+    <div class="video-details-overlay" id="videoDetailsOverlay"></div>
+    <br>
+    <!-- Update the file input to allow multiple selections -->
+	<input type="file" id="fileInput" style="display:none;" onchange="loadVideoFromLocal()" accept="video/*" multiple>
+
+    <button class="select-button" onclick="selectVideo()">Select Video</button>
+
+  </div>
+
+
+    <!-- Popup for feature.html -->
+    <div id="featurePopup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closePopup('featurePopup')"><img src="close.gif"></span>
+            <iframe src="feature.html" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <!-- Popup for key.html -->
+    <div id="keyPopup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closePopup('keyPopup')"><img src="close.gif"></span>
+            <iframe src="key.html" frameborder="0"></iframe>
+        </div>
+    </div>
+</body>
+</html>
+
