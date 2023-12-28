@@ -58,7 +58,7 @@ h1 {
   top: 90%; /* Adjust the position for full-screen mode */
 }
 
-button {
+.select-button {
             display: block;
             padding: 10px;
             margin: 10px auto;
@@ -66,15 +66,15 @@ button {
             font-size: 24px;
             text-decoration: none;
             color:black;
-	          border:none;
+	    border:none;
             background-color:white;
             border-radius: 8px;
-	          transition: all 0.3s ease-in-out;
-	          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+	    transition: all 0.3s ease-in-out;
+	    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
             cursor: pointer;
         }
 
-	button:hover {
+	.select-button:hover {
 		background-color:blue;
 		color:white;
 		transform: translateY(-5px);
