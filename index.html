@@ -93,14 +93,8 @@
 
 
 <script>
-    // Function to check if the device is a PC
-    function isPC() {
-        const userAgent = navigator.userAgent;
-        return /Windows|Linux|Macintosh/i.test(userAgent);
-    }
-
-    // Check if the browser supports the beforeinstallprompt event and if it's a PC
-    if ('serviceWorker' in navigator && 'PushManager' in window && isPC()) {
+    // Check if the browser supports the beforeinstallprompt event
+    if ('serviceWorker' in navigator && 'PushManager' in window && navigator.platform.toUpperCase().includes('WIN')) {
         window.addEventListener('beforeinstallprompt', (event) => {
             // Prevent the default browser prompt
             event.preventDefault();
@@ -148,6 +142,7 @@
         });
     }
 </script>
+
 
     <script>
         // JavaScript to show the message on mobile devices
