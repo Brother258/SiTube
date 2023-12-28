@@ -35,9 +35,13 @@
         cursor: pointer;
     }
 
-    #install-button:hover,
+    #install-button:hover{
+        background-color: green;
+        color: #fff;
+    }
+
     #dismiss-button:hover {
-        background-color: #007bff;
+        background-color: red;
         color: #fff;
     }
 
