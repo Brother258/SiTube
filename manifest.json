@@ -1,21 +1,23 @@
 {
-  "name": "SiTube",
-  "short_name": "SiTube",
-  "description": "Best Online Video Player",
-  "start_url": "/index.html",
-  "display": "standalone",
-  "background_color": "#1d1f21",
-  "theme_color": "black",
-  "icons": [
-    {
-      "src": "/icon.png",
-      "sizes": "128x128",
-      "type": "image/png"
-    },
-    {
-      "src": "/icon.png",
-      "sizes": "128x128",
-      "type": "image/png"
-    }
-  ]
+    "name": "SiTube",
+    "short_name": "SiTube",
+    "icons": [
+        {
+            "src": "https://sitube.netlify.app/icon.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "https://sitube.netlify.app/icon.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "theme_color": "#1d1f21",
+    "background_color": "black",
+    "display": "standalone",
+    "prefer_related_applications": false,
+  "start_url": "https://sitube.netlify.app/"
 }
