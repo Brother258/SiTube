@@ -22,8 +22,6 @@
             position: fixed;
             bottom: 20%;
             left: 50%;
-	    height:100%;
-	    width:100%;
             transform: translateX(-50%);
             background-color: #4CAF50;
             color: white;
@@ -35,7 +33,7 @@
 </head>
 <body>
 
-  <div class="container">
+  <div class="container" id="container">
     <h1 id="webpageTitle">SiTube - Best Online Video Player by Shahriar <br> <span style="font-size:15px; color:cyan;">Press <kbd>u</kbd> to see all the keyboard and mouse interaction shortcuts </span></h1>
 <br>
     <div class="video-container" id="videoContainer">
@@ -64,7 +62,7 @@
 
     <button class="select-button" onclick="selectVideo()">Select Video</button>
 
-  </div>
+
 
 
     <!-- Popup for feature.html -->
@@ -83,7 +81,9 @@
         </div>
     </div>
 
-
+	  
+  </div>
+	
     <div id="mobileMessage">
 		This online video player is designed with many key and mouse shortcut for the device which is connected with keyboard and mouse! Sorry for you. But I've a solution. You can use <a href="https://sikey.netlify.app/streama/"> Streama </a>. 
     </div>
@@ -110,7 +110,7 @@
                     </div>
                     <div class="install-prompt-button">
 		        <button id="dismiss-button">Nah, I'm Good</button>
-                        <button id="install-button">Get Cool</button>
+                        <button id="install-button">Install Now</button>
                         
                     </div>
                 </div>
@@ -150,6 +150,7 @@
             if (window.innerWidth <= 600) {
                 // Display the mobile message
                 document.getElementById("mobileMessage").style.display = "block";
+		document.getElementById("container").style.display = "none";
             }
         };
     </script>
