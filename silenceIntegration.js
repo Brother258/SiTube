@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let audioContext;
     let silenceDetectorNode;
     let isVideoPlaying = false;
+    let resumeTimeout;
 
     // Function to create AudioContext and set up SilenceDetectorNode
     function initializeAudioContext() {
@@ -25,14 +26,17 @@ document.addEventListener('DOMContentLoaded', function () {
                             isVideoPlaying = false;
                         }
                     } else if (type === 1) {
-                        // Silence ended, resume the video immediately
+                        // Silence ended, add a delay before resuming the video
                         console.log('Silence ended at', timestamp);
-                        if (!isVideoPlaying) {
-                            videoPlayer.play().catch((error) => {
-                                console.error('Failed to resume video playback:', error);
-                            });
-                            isVideoPlaying = true;
-                        }
+                        clearTimeout(resumeTimeout);
+                        resumeTimeout = setTimeout(() => {
+                            if (!isVideoPlaying) {
+                                videoPlayer.play().catch((error) => {
+                                    console.error('Failed to resume video playback:', error);
+                                });
+                                isVideoPlaying = true;
+                            }
+                        }, 500); // Adjust the delay (in milliseconds) as needed
                     }
                 };
             });
