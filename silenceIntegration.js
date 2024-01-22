@@ -19,24 +19,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 silenceDetectorNode.port.onmessage = (event) => {
                     const [type, timestamp] = event.data;
                     if (type === 0) {
-                        // Silence started, stop the video immediately
+                        // Silence started, stop the video if the duration is more than 1 second
                         console.log('Silence started at', timestamp);
                         if (isVideoPlaying) {
-                            videoPlayer.pause();
-                            isVideoPlaying = false;
+                            clearTimeout(resumeTimeout);
+                            resumeTimeout = setTimeout(() => {
+                                videoPlayer.pause();
+                                isVideoPlaying = false;
+                            }, 1000); // Pause if silence duration is more than 1 second
                         }
                     } else if (type === 1) {
-                        // Silence ended, add a very short delay before resuming the video
+                        // Silence ended, resume the video immediately
                         console.log('Silence ended at', timestamp);
                         clearTimeout(resumeTimeout);
-                        resumeTimeout = setTimeout(() => {
-                            if (!isVideoPlaying) {
-                                videoPlayer.play().catch((error) => {
-                                    console.error('Failed to resume video playback:', error);
-                                });
-                                isVideoPlaying = true;
-                            }
-                        }, 1000); // Adjust the delay (in milliseconds) as needed
+                        if (!isVideoPlaying) {
+                            videoPlayer.play().catch((error) => {
+                                console.error('Failed to resume video playback:', error);
+                            });
+                            isVideoPlaying = true;
+                        }
                     }
                 };
             });
