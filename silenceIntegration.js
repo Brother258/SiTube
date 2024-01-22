@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Initialize variables por
+    // Initialize variables
     let audioContext;
     let silenceDetectorNode;
     let isVideoPlaying = false;
