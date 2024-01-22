@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Initialize variables
+    // Initialize variables ok
     let audioContext;
     let silenceDetectorNode;
     let isVideoPlaying = false;
@@ -26,8 +26,10 @@ document.addEventListener('DOMContentLoaded', function () {
                             isVideoPlaying = false;
                         }
                     } else if (type === 1) {
-                        // Silence ended, add a very short delay before resuming the video
+                        // Silence ended, dynamically adjust the delay before resuming the video
                         console.log('Silence ended at', timestamp);
+                        const silenceDuration = performance.now() - timestamp * 1000;
+                        const delay = Math.min(silenceDuration, 100); // Maximum delay of 100 milliseconds
                         clearTimeout(resumeTimeout);
                         resumeTimeout = setTimeout(() => {
                             if (!isVideoPlaying) {
@@ -36,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 });
                                 isVideoPlaying = true;
                             }
-                        }, 100); // Adjust the delay (in milliseconds) as needed
+                        }, delay);
                     }
                 };
             });
