@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Initialize variables ok
+    // Initialize variables
     let audioContext;
     let silenceDetectorNode;
     let isVideoPlaying = false;
-    let resumeTimeout;
+    let audioBuffer = null;
 
     // Function to create AudioContext and set up SilenceDetectorNode
     function initializeAudioContext() {
@@ -26,19 +26,24 @@ document.addEventListener('DOMContentLoaded', function () {
                             isVideoPlaying = false;
                         }
                     } else if (type === 1) {
-                        // Silence ended, dynamically adjust the delay before resuming the video
+                        // Silence ended, play back buffered audio
                         console.log('Silence ended at', timestamp);
-                        const silenceDuration = performance.now() - timestamp * 1000;
-                        const delay = Math.min(silenceDuration, 100); // Maximum delay of 100 milliseconds
-                        clearTimeout(resumeTimeout);
-                        resumeTimeout = setTimeout(() => {
-                            if (!isVideoPlaying) {
-                                videoPlayer.play().catch((error) => {
-                                    console.error('Failed to resume video playback:', error);
-                                });
-                                isVideoPlaying = true;
-                            }
-                        }, delay);
+                        if (audioBuffer) {
+                            const audioBufferSource = audioContext.createBufferSource();
+                            audioBufferSource.buffer = audioBuffer;
+                            audioBufferSource.connect(audioContext.destination);
+                            audioBufferSource.start();
+                        }
+                        // Reset the buffer
+                        audioBuffer = null;
+
+                        // Resume the video
+                        if (!isVideoPlaying) {
+                            videoPlayer.play().catch((error) => {
+                                console.error('Failed to resume video playback:', error);
+                            });
+                            isVideoPlaying = true;
+                        }
                     }
                 };
             });
@@ -51,5 +56,20 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!audioContext) {
             initializeAudioContext();
         }
+    });
+
+    // Buffer audio when video is loaded
+    videoPlayer.addEventListener('loadeddata', () => {
+        const duration = 1; // Adjust the duration of the audio buffer as needed
+        const audioData = videoPlayer.captureStream().getAudioTracks()[0].applyConstraints({ sampleSize: 16 }).onended;
+        const offlineAudioContext = new OfflineAudioContext(1, audioData.length, audioContext.sampleRate);
+        const bufferSource = offlineAudioContext.createBufferSource();
+        bufferSource.buffer = offlineAudioContext.createBuffer(1, audioData.length, audioContext.sampleRate);
+        bufferSource.buffer.copyToChannel(new Float32Array(audioData), 0);
+        bufferSource.connect(offlineAudioContext.destination);
+        bufferSource.start();
+        offlineAudioContext.startRendering().then((renderedBuffer) => {
+            audioBuffer = renderedBuffer;
+        });
     });
 });
