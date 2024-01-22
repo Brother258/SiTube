@@ -19,25 +19,24 @@ document.addEventListener('DOMContentLoaded', function () {
                 silenceDetectorNode.port.onmessage = (event) => {
                     const [type, timestamp] = event.data;
                     if (type === 0) {
-                        // Silence started, stop the video if the duration is more than 1 second
+                        // Silence started, stop the video immediately
                         console.log('Silence started at', timestamp);
                         if (isVideoPlaying) {
-                            clearTimeout(resumeTimeout);
-                            resumeTimeout = setTimeout(() => {
-                                videoPlayer.pause();
-                                isVideoPlaying = false;
-                            }, 1000); // Pause if silence duration is more than 1 second
+                            videoPlayer.pause();
+                            isVideoPlaying = false;
                         }
                     } else if (type === 1) {
-                        // Silence ended, resume the video immediately
+                        // Silence ended, add a very short delay before resuming the video
                         console.log('Silence ended at', timestamp);
                         clearTimeout(resumeTimeout);
-                        if (!isVideoPlaying) {
-                            videoPlayer.play().catch((error) => {
-                                console.error('Failed to resume video playback:', error);
-                            });
-                            isVideoPlaying = true;
-                        }
+                        resumeTimeout = setTimeout(() => {
+                            if (!isVideoPlaying) {
+                                videoPlayer.play().catch((error) => {
+                                    console.error('Failed to resume video playback:', error);
+                                });
+                                isVideoPlaying = true;
+                            }
+                        }, 100); // Adjust the delay (in milliseconds) as needed
                     }
                 };
             });
