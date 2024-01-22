@@ -14,8 +14,8 @@
 
         static get parameterDescriptors() {
             return [
-                { name: "volumeThreshold", defaultValue: 0.1, minValue: 0, maxValue: 1, automationRate: "k-rate" },
-                { name: "durationThreshold", minValue: 0, automationRate: "k-rate" }
+                { name: "volumeThreshold", defaultValue: 1000, minValue: 0, maxValue: 1, automationRate: "k-rate" },
+                { name: "durationThreshold", minValue: 1000, automationRate: "k-rate" }
             ];
         }
 
