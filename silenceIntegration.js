@@ -5,9 +5,6 @@ document.addEventListener('DOMContentLoaded', function () {
     let isVideoPlaying = false;
     let resumeTimeout;
 
-    // Set the threshold for silence duration (in milliseconds)
-    const silenceThreshold = 1000; // 1 second
-
     // Function to create AudioContext and set up SilenceDetectorNode
     function initializeAudioContext() {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -22,14 +19,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 silenceDetectorNode.port.onmessage = (event) => {
                     const [type, timestamp] = event.data;
                     if (type === 0) {
-                        // Silence started, stop the video only if the duration is greater than the threshold
+                        // Silence started, stop the video immediately
                         console.log('Silence started at', timestamp);
-                        if (isVideoPlaying && performance.now() - timestamp * 1000 > silenceThreshold) {
+                        if (isVideoPlaying) {
                             videoPlayer.pause();
                             isVideoPlaying = false;
                         }
                     } else if (type === 1) {
-                        // Silence ended, resume the video immediately
+                        // Silence ended, add a very short delay before resuming the video
                         console.log('Silence ended at', timestamp);
                         clearTimeout(resumeTimeout);
                         resumeTimeout = setTimeout(() => {
@@ -39,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 });
                                 isVideoPlaying = true;
                             }
-                        }, 0); // Set delay to 0 milliseconds
+                        }, 1000); // Adjust the delay (in milliseconds) as needed
                     }
                 };
             });
@@ -52,14 +49,5 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!audioContext) {
             initializeAudioContext();
         }
-    });
-
-    // Set up event listeners for video playback state
-    videoPlayer.addEventListener('play', () => {
-        isVideoPlaying = true;
-    });
-
-    videoPlayer.addEventListener('pause', () => {
-        isVideoPlaying = false;
     });
 });
