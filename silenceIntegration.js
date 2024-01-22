@@ -28,7 +28,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         // Silence ended, resume the video immediately
                         console.log('Silence ended at', timestamp);
                         if (!isVideoPlaying) {
-                            videoPlayer.play();
+                            videoPlayer.play().catch((error) => {
+                                console.error('Failed to resume video playback:', error);
+                            });
                             isVideoPlaying = true;
                         }
                     }
