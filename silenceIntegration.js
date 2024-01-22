@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             isVideoPlaying = false;
                         }
                     } else if (type === 1) {
-                        // Silence ended, add a delay before resuming the video
+                        // Silence ended, add a very short delay before resuming the video
                         console.log('Silence ended at', timestamp);
                         clearTimeout(resumeTimeout);
                         resumeTimeout = setTimeout(() => {
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 });
                                 isVideoPlaying = true;
                             }
-                        }, 500); // Adjust the delay (in milliseconds) as needed
+                        }, 100); // Adjust the delay (in milliseconds) as needed
                     }
                 };
             });
