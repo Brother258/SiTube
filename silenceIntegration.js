@@ -1,9 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Initialize variables
+    // Initialize variables ok
     let audioContext;
     let silenceDetectorNode;
     let isVideoPlaying = false;
-    let audioBuffer = null;
+    let resumeTimeout;
+
+    // Set the threshold for silence duration (in milliseconds)
+    const silenceThreshold = 1000; // 1 second
 
     // Function to create AudioContext and set up SilenceDetectorNode
     function initializeAudioContext() {
@@ -19,31 +22,26 @@ document.addEventListener('DOMContentLoaded', function () {
                 silenceDetectorNode.port.onmessage = (event) => {
                     const [type, timestamp] = event.data;
                     if (type === 0) {
-                        // Silence started, stop the video immediately
+                        // Silence started, stop the video only if the duration is greater than the threshold
                         console.log('Silence started at', timestamp);
-                        if (isVideoPlaying) {
+                        if (isVideoPlaying && performance.now() - timestamp * 1000 > silenceThreshold) {
                             videoPlayer.pause();
                             isVideoPlaying = false;
                         }
                     } else if (type === 1) {
-                        // Silence ended, play back buffered audio
+                        // Silence ended, dynamically adjust the delay before resuming the video
                         console.log('Silence ended at', timestamp);
-                        if (audioBuffer) {
-                            const audioBufferSource = audioContext.createBufferSource();
-                            audioBufferSource.buffer = audioBuffer;
-                            audioBufferSource.connect(audioContext.destination);
-                            audioBufferSource.start();
-                        }
-                        // Reset the buffer
-                        audioBuffer = null;
-
-                        // Resume the video
-                        if (!isVideoPlaying) {
-                            videoPlayer.play().catch((error) => {
-                                console.error('Failed to resume video playback:', error);
-                            });
-                            isVideoPlaying = true;
-                        }
+                        const silenceDuration = performance.now() - timestamp * 1000;
+                        const delay = Math.min(silenceDuration, 100); // Maximum delay of 100 milliseconds
+                        clearTimeout(resumeTimeout);
+                        resumeTimeout = setTimeout(() => {
+                            if (!isVideoPlaying) {
+                                videoPlayer.play().catch((error) => {
+                                    console.error('Failed to resume video playback:', error);
+                                });
+                                isVideoPlaying = true;
+                            }
+                        }, delay);
                     }
                 };
             });
@@ -56,20 +54,5 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!audioContext) {
             initializeAudioContext();
         }
-    });
-
-    // Buffer audio when video is loaded
-    videoPlayer.addEventListener('loadeddata', () => {
-        const duration = 1; // Adjust the duration of the audio buffer as needed
-        const audioData = videoPlayer.captureStream().getAudioTracks()[0].applyConstraints({ sampleSize: 16 }).onended;
-        const offlineAudioContext = new OfflineAudioContext(1, audioData.length, audioContext.sampleRate);
-        const bufferSource = offlineAudioContext.createBufferSource();
-        bufferSource.buffer = offlineAudioContext.createBuffer(1, audioData.length, audioContext.sampleRate);
-        bufferSource.buffer.copyToChannel(new Float32Array(audioData), 0);
-        bufferSource.connect(offlineAudioContext.destination);
-        bufferSource.start();
-        offlineAudioContext.startRendering().then((renderedBuffer) => {
-            audioBuffer = renderedBuffer;
-        });
     });
 });
