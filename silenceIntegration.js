@@ -21,10 +21,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 silenceDetectorNode.port.onmessage = (event) => {
                     const [type, timestamp] = event.data;
-                    if (type === 0 && performance.now() - timestamp * 1000 > silenceThreshold) {
+                    if (type === 0) {
                         // Silence started, stop the video only if the duration is greater than the threshold
                         console.log('Silence started at', timestamp);
-                        if (isVideoPlaying) {
+                        if (isVideoPlaying && performance.now() - timestamp * 1000 > silenceThreshold) {
                             videoPlayer.pause();
                             isVideoPlaying = false;
                         }
@@ -52,5 +52,14 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!audioContext) {
             initializeAudioContext();
         }
+    });
+
+    // Set up event listeners for video playback state
+    videoPlayer.addEventListener('play', () => {
+        isVideoPlaying = true;
+    });
+
+    videoPlayer.addEventListener('pause', () => {
+        isVideoPlaying = false;
     });
 });
