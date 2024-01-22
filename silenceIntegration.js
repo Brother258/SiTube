@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Initialize variables
+    // Initialize variables por
     let audioContext;
     let silenceDetectorNode;
     let isVideoPlaying = false;
@@ -21,10 +21,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 silenceDetectorNode.port.onmessage = (event) => {
                     const [type, timestamp] = event.data;
-                    if (type === 0) {
+                    if (type === 0 && performance.now() - timestamp * 1000 > silenceThreshold) {
                         // Silence started, stop the video only if the duration is greater than the threshold
                         console.log('Silence started at', timestamp);
-                        if (isVideoPlaying && performance.now() - timestamp * 1000 > silenceThreshold) {
+                        if (isVideoPlaying) {
                             videoPlayer.pause();
                             isVideoPlaying = false;
                         }
